@@ -10,7 +10,7 @@ namespace CodiceFiscale;
 class Checker
 {
     // fiscal's code regex
-    const REGEX_CODICEFISCALE = '/^[a-z]{6}[0-9]{2}[a-z][0-9]{2}[a-z][0-9]{3}[a-z]$/i';
+    const REGEX_CODICEFISCALE = '/^([A-Za-z]{6}[0-9lmnpqrstuvLMNPQRSTUV]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9lmnpqrstuvLMNPQRSTUV]{2}[A-Za-z]{1}[0-9lmnpqrstuvLMNPQRSTUV]{3}[A-Za-z]{1})|([0-9]{11})$/i';
 
     // women char
     const CHR_WOMEN = 'F';
