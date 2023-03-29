@@ -1,6 +1,6 @@
 {
     "name": "fattureincloud/codice-fiscale",
-    "description": "A library to calculate and check the validity of the italian fiscal code (codice fiscale), based on the original work of andreausu and fdisotto",
+    "description": "A library to calculate and check the validity of the italian fiscal code (codice fiscale)",
     "version": "1.0.0",
     "keywords": ["codice fiscale", "php"],
     "license": "MIT",
