@@ -3,7 +3,7 @@ CodiceFiscale
 
 A library to calculate and check the validity of the italian fiscal code (codice fiscale).
 
-[![Build Status](https://travis-ci.org/andreausu/CodiceFiscale.png?branch=master)](https://travis-ci.org/andreausu/CodiceFiscale) [![Latest Stable Version](https://poser.pugx.org/usu/codice-fiscale/v/stable.svg)](https://packagist.org/packages/usu/codice-fiscale) [![Total Downloads](https://poser.pugx.org/usu/codice-fiscale/downloads.svg)](https://packagist.org/packages/usu/codice-fiscale) [![License](https://poser.pugx.org/usu/codice-fiscale/license.svg)](https://packagist.org/packages/usu/codice-fiscale)
+[![Latest Stable Version](https://poser.pugx.org/usu/codice-fiscale/v/stable.svg)](https://packagist.org/packages/fattureincloud/codice-fiscale) [![Total Downloads](https://poser.pugx.org/usu/codice-fiscale/downloads.svg)](https://packagist.org/packages/fattureincloud/codice-fiscale) [![License](https://poser.pugx.org/usu/codice-fiscale/license.svg)](https://packagist.org/packages/fattureincloud/codice-fiscale)
 
 Requirements
 ------------
@@ -13,26 +13,11 @@ Requirements
 Installation
 ------------
 
-Create a composer.json file with the following content:
-
-``` json
-{
-    "require": {
-        "usu/codice-fiscale": "1.0.*"
-    }
-}
-```
-
-Then run
+Add the library with the following command
 
 ``` bash
-$ curl -s https://getcomposer.org/installer | php
-$ php composer.phar install
+composer require fattureincloud/codice-fiscale
 ```
-
-You should now have CodiceFiscale installed inside your vendor folder: *vendor/usu/codice-fiscale*
-
-And an handy autoload file to include in you project: *vendor/autoload.php*
 
 How to use
 ----------
