@@ -1,15 +1,9 @@
 {
-    "name": "usu/codice-fiscale",
-    "description": "A library to calculate and check the validity of the italian fiscal code (codice fiscale)",
+    "name": "fattureincloud/codice-fiscale",
+    "description": "A library to calculate and check the validity of the italian fiscal code (codice fiscale), based on the original work of andreausu and fdisotto",
+    "version": "1.0.0",
     "keywords": ["codice fiscale", "php"],
-    "homepage": "http://andreausu.github.com/CodiceFiscale",
     "license": "MIT",
-    "authors": [
-        {
-            "name": "Andrea Usuelli",
-            "email": "andrea.usuelli@gmail.com"
-        }
-    ],
     "require": {
         "php": ">=5.4.0"
     },
