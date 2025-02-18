@@ -1,11 +1,11 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-class CalculatorTest extends \PHPUnit_Framework_TestCase
+class CalculatorTest extends \PHPUnit\Framework\TestCase
 {
     protected $persons;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->persons = [
             [
@@ -59,7 +59,7 @@ class CalculatorTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testCalcoloCodiceFiscale()
+    public function testCalcoloCodiceFiscale(): void
     {
         $cf = new \CodiceFiscale\Calculator();
 

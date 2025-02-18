@@ -1,12 +1,12 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-class CheckerTest extends \PHPUnit_Framework_TestCase
+class CheckerTest extends \PHPUnit\Framework\TestCase
 {
     protected $codiciFiscaliOk;
     protected $codiciFiscaliKo;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->codiciFiscaliOk = [
             "VRDGPP13R10B293P",
@@ -21,7 +21,7 @@ class CheckerTest extends \PHPUnit_Framework_TestCase
         ];
     }
 
-    public function testCorrettezzaFormaleCodiceFiscale()
+    public function testCorrettezzaFormaleCodiceFiscale(): void
     {
         $checker = new \CodiceFiscale\Checker();
 
