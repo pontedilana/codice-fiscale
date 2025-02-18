@@ -112,7 +112,7 @@ class Calculator
 
     private function sanitizeString($string)
     {
-        $string = trim($string);
+        $string = trim((string) $string);
         $string = strtoupper(iconv('UTF-8', 'ASCII//TRANSLIT', $string));
         $string = str_replace(' ', '', $string);
         return $string;
