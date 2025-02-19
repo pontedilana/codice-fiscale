@@ -80,7 +80,7 @@ class Checker
 
     /**
      * Weight odd char
-     * @var unknown_type
+     * @var array
      */
     private $listOddChar = ['0' => 1, '1' => 0, '2' => 5, '3' => 7, '4' => 9, '5' => 13, '6' => 15, '7' => 17, '8' => 19, '9' => 21, 'A' => 1, 'B' => 0, 'C' => 5, 'D' => 7, 'E' => 9, 'F' => 13, 'G' => 15, 'H' => 17, 'I' => 19, 'J' => 21, 'K' => 2, 'L' => 4, 'M' => 18, 'N' => 20, 'O' => 11, 'P' => 3, 'Q' => 6, 'R' => 8, 'S' => 12, 'T' => 14, 'U' => 16, 'V' => 10, 'W' => 22, 'X' => 25, 'Y' => 24, 'Z' => 23];
 
@@ -98,7 +98,7 @@ class Checker
 
     /**
      * Error list
-     * @var unknown_type
+     * @var array{int: string}
      */
     private $listError = [0 => 'Empty code', 1 => 'Len error', 2 => 'Code with wrong char', 3 => 'Code with wrong char in omocodia', 4 => 'Wrong code'];
 
@@ -237,7 +237,7 @@ class Checker
             $this->sex = ((int)(substr($codiceFiscaleAdattato, 9, 2) > 40) ? self::CHR_WOMEN : self::CHR_MALE);
             $this->countryBirth = substr($codiceFiscaleAdattato, 11, 4);
             $this->yearBirth = substr($codiceFiscaleAdattato, 6, 2);
-            $this->dayBirth = substr($codiceFiscaleAdattato, 9, 2);
+            $this->dayBirth = (int)substr($codiceFiscaleAdattato, 9, 2);
             $this->monthBirth = $this->listDecMonth[substr($codiceFiscaleAdattato, 8, 1)];
 
             // get day birth if sex is women
@@ -281,7 +281,6 @@ class Checker
      * Raise Exception
      * @param integer $errorNum
      * @throws \Exception
-     * @return void
      */
     private function raiseException($errorNum): never
     {
