@@ -15,17 +15,17 @@ class CheckerTest extends TestCase
     /**
      * @var string[]
      */
-    protected $codiciFiscaliOk;
+    protected array $codiciFiscaliOk;
 
     /**
      * @var string[]
      */
-    protected $codiciFiscaliKo;
+    protected array $codiciFiscaliKo;
 
     /**
      * @var string[]
      */
-    protected $omocodie;
+    protected array $omocodie;
 
     public function setUp(): void
     {
@@ -53,15 +53,15 @@ class CheckerTest extends TestCase
         $checker = new Checker();
 
         foreach ($this->codiciFiscaliOk as $cf) {
-            $this->assertTrue($checker->isFormallyCorrect($cf));
+            self::assertTrue($checker->isFormallyCorrect($cf));
         }
 
         foreach ($this->codiciFiscaliKo as $cf) {
-            $this->assertFalse($checker->isFormallyCorrect($cf));
+            self::assertFalse($checker->isFormallyCorrect($cf));
         }
 
         foreach ($this->omocodie as $cf) {
-            $this->assertTrue($checker->isFormallyCorrect($cf));
+            self::assertTrue($checker->isFormallyCorrect($cf));
         }
     }
 }

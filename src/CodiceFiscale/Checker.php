@@ -157,16 +157,14 @@ class Checker
 
     /**
      * Check Codice Fiscale.
-     *
-     * @param string $codiceFiscale
      */
-    public function isFormallyCorrect($codiceFiscale): bool
+    public function isFormallyCorrect(string $codiceFiscale): bool
     {
         $this->resetProperties();
 
         try {
             // check empty
-            if (empty($codiceFiscale)) {
+            if (trim($codiceFiscale) === '') {
                 $this->raiseException(0);
             }
 
@@ -176,7 +174,7 @@ class Checker
             }
 
             // Check regex
-            if (!preg_match(self::REGEX_CODICEFISCALE, $codiceFiscale)) {
+            if (false === preg_match(self::REGEX_CODICEFISCALE, $codiceFiscale)) {
                 $this->raiseException(2);
             }
 
@@ -184,7 +182,7 @@ class Checker
             $cFCharList = str_split($codiceFiscale);
 
             // check omocodia
-            for ($i = 0; $i < count($this->listSostOmocodia); ++$i) {
+            for ($i = 0, $iMax = count($this->listSostOmocodia); $i < $iMax; ++$i) {
                 if (!is_numeric($cFCharList[$this->listSostOmocodia[$i]])) {
                     if ('!' === $this->listDecOmocodia[$cFCharList[$this->listSostOmocodia[$i]]]) {
                         $this->raiseException(3);
@@ -207,7 +205,7 @@ class Checker
             }
 
             // replace "omocodie"
-            for ($i = 0; $i < count($this->listSostOmocodia); ++$i) {
+            for ($i = 0, $iMax = count($this->listSostOmocodia); $i < $iMax; ++$i) {
                 if (!is_numeric($cFCharList[$this->listSostOmocodia[$i]])) {
                     $cFCharList[$this->listSostOmocodia[$i]] = $this->listDecOmocodia[$cFCharList[$this->listSostOmocodia[$i]]];
                 }
@@ -216,7 +214,7 @@ class Checker
             $codiceFiscaleAdattato = implode('', $cFCharList);
 
             // get fiscal code data
-            $this->sex = ((int) (substr($codiceFiscaleAdattato, 9, 2) > 40) ? self::CHR_WOMEN : self::CHR_MALE);
+            $this->sex = (((int) substr($codiceFiscaleAdattato, 9, 2) > 40) ? self::CHR_WOMEN : self::CHR_MALE);
             $this->countryBirth = substr($codiceFiscaleAdattato, 11, 4);
             $this->yearBirth = substr($codiceFiscaleAdattato, 6, 2);
             $this->dayBirth = substr($codiceFiscaleAdattato, 9, 2);
@@ -265,6 +263,6 @@ class Checker
     {
         $errMessage = $this->listError[$errorNum] ?? 'Unknown Exception';
 
-        throw new \Exception($errMessage, $errorNum);
+        throw new \RuntimeException($errMessage, $errorNum);
     }
 }

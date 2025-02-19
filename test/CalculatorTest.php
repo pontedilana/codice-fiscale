@@ -83,7 +83,7 @@ class CalculatorTest extends TestCase
         $cf = new Calculator();
 
         foreach ($this->persons as $person) {
-            $this->assertEquals($person['expected'], $cf->calcola($person['nome'], $person['cognome'], $person['sesso'], $person['dataNascita'], $person['codiceComune']));
+            self::assertSame($person['expected'], $cf->calcola($person['nome'], $person['cognome'], $person['sesso'], $person['dataNascita'], $person['codiceComune']));
         }
     }
 }

@@ -65,7 +65,7 @@ class Calculator
         $codiceControllo = 0;
         $alfanumerico = array_merge($this->numeri, $this->alfabeto);
         for ($i = 0; $i < 15; ++$i) {
-            $codiceControllo += $this->matriceCodiceControllo[strval(array_search($codiceFiscale[$i], $alfanumerico)) . strval(($i + 1) % 2)];
+            $codiceControllo += $this->matriceCodiceControllo[array_search($codiceFiscale[$i], $alfanumerico, true) . (($i + 1) % 2)];
         }
         $codiceFiscale .= $this->alfabeto[$codiceControllo % 26];
 
@@ -78,7 +78,7 @@ class Calculator
         $res = '';
         $cons = '';
         while (strlen($cons) < 4 && ($i + 1 <= strlen($string))) {
-            if (false !== array_search($string[$i], $this->consonanti)) {
+            if (in_array($string[$i], $this->consonanti, true)) {
                 $cons .= $string[$i];
             }
             ++$i;
@@ -93,7 +93,7 @@ class Calculator
         // Se non bastano prendo le vocali
         $i = 0;
         while (strlen($res) < 3 && ($i + 1 <= strlen($string))) {
-            if (false !== array_search($string[$i], $this->vocali)) {
+            if (in_array($string[$i], $this->vocali, true)) {
                 $res .= $string[$i];
             }
             ++$i;
@@ -108,7 +108,7 @@ class Calculator
         $res = '';
         $i = 0;
         while (strlen($res) < 3 && ($i + 1 <= strlen($string))) {
-            if (false !== array_search($string[$i], $this->consonanti)) {
+            if (in_array($string[$i], $this->consonanti, true)) {
                 $res .= $string[$i];
             }
             ++$i;
@@ -117,7 +117,7 @@ class Calculator
         // Se non bastano le consonanti, prendo le vocali
         $i = 0;
         while (strlen($res) < 3 && ($i + 1 <= strlen($string))) {
-            if (false !== array_search($string[$i], $this->vocali)) {
+            if (in_array($string[$i], $this->vocali, true)) {
                 $res .= $string[$i];
             }
             ++$i;
