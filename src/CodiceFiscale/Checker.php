@@ -3,9 +3,9 @@
 namespace CodiceFiscale;
 
 /**
- * Class to check if italian fiscal's code (codice fiscale) is formally Correct
- * @author SimoneNigro
+ * Class to check if italian fiscal's code (codice fiscale) is formally Correct.
  *
+ * @author SimoneNigro
  */
 class Checker
 {
@@ -19,166 +19,148 @@ class Checker
     public const CHR_MALE = 'M';
 
     /**
-     * is Valid
-     * @var bool
+     * is Valid.
      */
-    private $isValid = false;
+    private bool $isValid = false;
 
     /**
-     * Sex
-     * @var ?string
+     * Sex.
      */
-    private $sex = null;
+    private ?string $sex = null;
 
     /**
-     * Country Birth
-     * @var ?string
+     * Country Birth.
      */
-    private $countryBirth = null;
+    private ?string $countryBirth = null;
 
     /**
-     * Day Birth
-     * @var ?string
+     * Day Birth.
      */
-    private $dayBirth = null;
+    private ?string $dayBirth = null;
 
     /**
-     * Month Birth
-     * @var ?string
+     * Month Birth.
      */
-    private $monthBirth = null;
+    private ?string $monthBirth = null;
 
     /**
-     * Year Birth
-     * @var ?string
+     * Year Birth.
      */
-    private $yearBirth = null;
+    private ?string $yearBirth = null;
 
     /**
-     * Error
-     * @var ?string
+     * Error.
      */
-    private $error = null;
+    private ?string $error = null;
 
     /**
-     * List replace omocodia
+     * List replace omocodia.
+     *
      * @var array<string, string>
      */
-    private $listDecOmocodia = ['A' => '!', 'B' => '!', 'C' => '!', 'D' => '!', 'E' => '!', 'F' => '!', 'G' => '!', 'H' => '!', 'I' => '!', 'J' => '!', 'K' => '!', 'L' => '0', 'M' => '1', 'N' => '2', 'O' => '!', 'P' => '3', 'Q' => '4', 'R' => '5', 'S' => '6', 'T' => '7', 'U' => '8', 'V' => '9', 'W' => '!', 'X' => '!', 'Y' => '!', 'Z' => '!',];
+    private array $listDecOmocodia = ['A' => '!', 'B' => '!', 'C' => '!', 'D' => '!', 'E' => '!', 'F' => '!', 'G' => '!', 'H' => '!', 'I' => '!', 'J' => '!', 'K' => '!', 'L' => '0', 'M' => '1', 'N' => '2', 'O' => '!', 'P' => '3', 'Q' => '4', 'R' => '5', 'S' => '6', 'T' => '7', 'U' => '8', 'V' => '9', 'W' => '!', 'X' => '!', 'Y' => '!', 'Z' => '!'];
 
     /**
-     * Positions affected characters to alteration of coding in the case of omocodia
+     * Positions affected characters to alteration of coding in the case of omocodia.
+     *
      * @var array<int>
      */
-    private $listSostOmocodia = [6, 7, 9, 10, 12, 13, 14];
+    private array $listSostOmocodia = [6, 7, 9, 10, 12, 13, 14];
 
     /**
-     * Weight even char
+     * Weight even char.
+     *
      * @var array<int|string, int>
      */
-    private $listEvenChar = ['0' => 0, '1' => 1, '2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9, 'A' => 0, 'B' => 1, 'C' => 2, 'D' => 3, 'E' => 4, 'F' => 5, 'G' => 6, 'H' => 7, 'I' => 8, 'J' => 9, 'K' => 10, 'L' => 11, 'M' => 12, 'N' => 13, 'O' => 14, 'P' => 15, 'Q' => 16, 'R' => 17, 'S' => 18, 'T' => 19, 'U' => 20, 'V' => 21, 'W' => 22, 'X' => 23, 'Y' => 24, 'Z' => 25];
+    private array $listEvenChar = ['0' => 0, '1' => 1, '2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9, 'A' => 0, 'B' => 1, 'C' => 2, 'D' => 3, 'E' => 4, 'F' => 5, 'G' => 6, 'H' => 7, 'I' => 8, 'J' => 9, 'K' => 10, 'L' => 11, 'M' => 12, 'N' => 13, 'O' => 14, 'P' => 15, 'Q' => 16, 'R' => 17, 'S' => 18, 'T' => 19, 'U' => 20, 'V' => 21, 'W' => 22, 'X' => 23, 'Y' => 24, 'Z' => 25];
 
     /**
-     * Weight odd char
+     * Weight odd char.
+     *
      * @var array<int|string, int>
      */
-    private $listOddChar = ['0' => 1, '1' => 0, '2' => 5, '3' => 7, '4' => 9, '5' => 13, '6' => 15, '7' => 17, '8' => 19, '9' => 21, 'A' => 1, 'B' => 0, 'C' => 5, 'D' => 7, 'E' => 9, 'F' => 13, 'G' => 15, 'H' => 17, 'I' => 19, 'J' => 21, 'K' => 2, 'L' => 4, 'M' => 18, 'N' => 20, 'O' => 11, 'P' => 3, 'Q' => 6, 'R' => 8, 'S' => 12, 'T' => 14, 'U' => 16, 'V' => 10, 'W' => 22, 'X' => 25, 'Y' => 24, 'Z' => 23];
+    private array $listOddChar = ['0' => 1, '1' => 0, '2' => 5, '3' => 7, '4' => 9, '5' => 13, '6' => 15, '7' => 17, '8' => 19, '9' => 21, 'A' => 1, 'B' => 0, 'C' => 5, 'D' => 7, 'E' => 9, 'F' => 13, 'G' => 15, 'H' => 17, 'I' => 19, 'J' => 21, 'K' => 2, 'L' => 4, 'M' => 18, 'N' => 20, 'O' => 11, 'P' => 3, 'Q' => 6, 'R' => 8, 'S' => 12, 'T' => 14, 'U' => 16, 'V' => 10, 'W' => 22, 'X' => 25, 'Y' => 24, 'Z' => 23];
 
     /**
-     * Control code (char 16)
+     * Control code (char 16).
+     *
      * @var array<int, string>
      */
-    private $listCtrlCode = [0 => 'A', 1 => 'B', 2 => 'C', 3 => 'D', 4 => 'E', 5 => 'F', 6 => 'G', 7 => 'H', 8 => 'I', 9 => 'J', 10 => 'K', 11 => 'L', 12 => 'M', 13 => 'N', 14 => 'O', 15 => 'P', 16 => 'Q', 17 => 'R', 18 => 'S', 19 => 'T', 20 => 'U', 21 => 'V', 22 => 'W', 23 => 'X', 24 => 'Y', 25 => 'Z'];
+    private array $listCtrlCode = [0 => 'A', 1 => 'B', 2 => 'C', 3 => 'D', 4 => 'E', 5 => 'F', 6 => 'G', 7 => 'H', 8 => 'I', 9 => 'J', 10 => 'K', 11 => 'L', 12 => 'M', 13 => 'N', 14 => 'O', 15 => 'P', 16 => 'Q', 17 => 'R', 18 => 'S', 19 => 'T', 20 => 'U', 21 => 'V', 22 => 'W', 23 => 'X', 24 => 'Y', 25 => 'Z'];
 
     /**
-     * Month code
+     * Month code.
+     *
      * @var array<string, string>
      */
-    private $listDecMonth = ['A' => '01', 'B' => '02', 'C' => '03', 'D' => '04', 'E' => '05', 'H' => '06', 'L' => '07', 'M' => '08', 'P' => '09', 'R' => '10', 'S' => '11', 'T' => '12'];
+    private array $listDecMonth = ['A' => '01', 'B' => '02', 'C' => '03', 'D' => '04', 'E' => '05', 'H' => '06', 'L' => '07', 'M' => '08', 'P' => '09', 'R' => '10', 'S' => '11', 'T' => '12'];
 
     /**
-     * Error list
+     * Error list.
+     *
      * @var string[]
      */
-    private $listError = [0 => 'Empty code', 1 => 'Len error', 2 => 'Code with wrong char', 3 => 'Code with wrong char in omocodia', 4 => 'Wrong code'];
-
+    private array $listError = [0 => 'Empty code', 1 => 'Len error', 2 => 'Code with wrong char', 3 => 'Code with wrong char in omocodia', 4 => 'Wrong code'];
 
     /**
-     * Getter isValid
-     * @return boolean
+     * Getter isValid.
      */
-    public function getIsValid()
+    public function getIsValid(): bool
     {
         return $this->isValid;
     }
 
-
     /**
-     * Getter Error
-     * @return ?string
+     * Getter Error.
      */
-    public function getError()
+    public function getError(): ?string
     {
         return $this->error;
     }
 
-
     /**
-     * Getter Sex
-     * @return ?string
+     * Getter Sex.
      */
-    public function getSex()
+    public function getSex(): ?string
     {
         return $this->sex;
     }
 
-
     /**
-     * Getter CountryBirth
-     * @return ?string
+     * Getter CountryBirth.
      */
-    public function getCountryBirth()
+    public function getCountryBirth(): ?string
     {
         return $this->countryBirth;
     }
 
-
-    /**
-     * Getter YearBirth
-     * @return ?numeric-string
-     */
-    public function getYearBirth()
+    public function getYearBirth(): ?string
     {
         return $this->yearBirth;
     }
 
-
     /**
-     * Getter MonthBirth
-     * @return ?string
+     * Getter MonthBirth.
      */
-    public function getMonthBirth()
+    public function getMonthBirth(): ?string
     {
         return $this->monthBirth;
     }
 
-
     /**
-     * Getter DayBirth
-     * @return ?string
+     * Getter DayBirth.
      */
-    public function getDayBirth()
+    public function getDayBirth(): ?string
     {
         return $this->dayBirth;
     }
 
-
     /**
-     * Check Codice Fiscale
+     * Check Codice Fiscale.
+     *
      * @param string $codiceFiscale
-     * @return boolean
      */
-    public function isFormallyCorrect($codiceFiscale)
+    public function isFormallyCorrect($codiceFiscale): bool
     {
         $this->resetProperties();
 
@@ -189,7 +171,7 @@ class Checker
             }
 
             // Vcheck len
-            if (strlen($codiceFiscale) !== 16) {
+            if (16 !== strlen($codiceFiscale)) {
                 $this->raiseException(1);
             }
 
@@ -202,9 +184,9 @@ class Checker
             $cFCharList = str_split($codiceFiscale);
 
             // check omocodia
-            for ($i = 0; $i < count($this->listSostOmocodia); $i++) {
+            for ($i = 0; $i < count($this->listSostOmocodia); ++$i) {
                 if (!is_numeric($cFCharList[$this->listSostOmocodia[$i]])) {
-                    if ($this->listDecOmocodia[$cFCharList[$this->listSostOmocodia[$i]]] === '!') {
+                    if ('!' === $this->listDecOmocodia[$cFCharList[$this->listSostOmocodia[$i]]]) {
                         $this->raiseException(3);
                     }
                 }
@@ -225,7 +207,7 @@ class Checker
             }
 
             // replace "omocodie"
-            for ($i = 0; $i < count($this->listSostOmocodia); $i++) {
+            for ($i = 0; $i < count($this->listSostOmocodia); ++$i) {
                 if (!is_numeric($cFCharList[$this->listSostOmocodia[$i]])) {
                     $cFCharList[$this->listSostOmocodia[$i]] = $this->listDecOmocodia[$cFCharList[$this->listSostOmocodia[$i]]];
                 }
@@ -241,10 +223,10 @@ class Checker
             $this->monthBirth = $this->listDecMonth[substr($codiceFiscaleAdattato, 8, 1)];
 
             // get day birth if sex is women
-            if ($this->sex === self::CHR_WOMEN) {
+            if (self::CHR_WOMEN === $this->sex) {
                 $this->dayBirth = (string) ((int) $this->dayBirth - 40);
 
-                if (strlen($this->dayBirth) === 1) {
+                if (1 === strlen($this->dayBirth)) {
                     $this->dayBirth = '0' . $this->dayBirth;
                 }
             }
@@ -260,12 +242,10 @@ class Checker
         return $this->isValid;
     }
 
-
     /**
-     * Reset Class Properties
-     * @return void
+     * Reset Class Properties.
      */
-    private function resetProperties()
+    private function resetProperties(): void
     {
         $this->isValid = false;
         $this->sex = null;
@@ -276,13 +256,12 @@ class Checker
         $this->error = null;
     }
 
-
     /**
-     * Raise Exception
-     * @param integer $errorNum
+     * Raise Exception.
+     *
      * @throws \Exception
      */
-    private function raiseException($errorNum): never
+    private function raiseException(int $errorNum): never
     {
         $errMessage = $this->listError[$errorNum] ?? 'Unknown Exception';
 

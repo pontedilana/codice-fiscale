@@ -12,8 +12,8 @@ return RectorConfig::configure()
     ])
     ->withPhpSets(php81: true)
     ->withSets([
-        PHPUnitSetList::PHPUNIT_100
+        PHPUnitSetList::PHPUNIT_100,
     ])
-    ->withTypeCoverageLevel(0)
+    ->withTypeCoverageLevel(100)
     ->withDeadCodeLevel(0)
     ->withCodeQualityLevel(0);

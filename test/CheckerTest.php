@@ -1,8 +1,16 @@
 <?php
 
+use CodiceFiscale\Checker;
+use PHPUnit\Framework\TestCase;
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
-class CheckerTest extends \PHPUnit\Framework\TestCase
+/**
+ * @internal
+ *
+ * @coversNothing
+ */
+class CheckerTest extends TestCase
 {
     /**
      * @var string[]
@@ -22,15 +30,15 @@ class CheckerTest extends \PHPUnit\Framework\TestCase
     public function setUp(): void
     {
         $this->codiciFiscaliOk = [
-            "VRDGPP13R10B293P",
-            "CHRVRD74S53L219F",
-            "VRDGPP13R10B29PL",
+            'VRDGPP13R10B293P',
+            'CHRVRD74S53L219F',
+            'VRDGPP13R10B29PL',
         ];
 
         $this->codiciFiscaliKo = [
-            "SLLNDR91C06F205",
-            "SXLNDQ67CS8Z210L",
-            "XSD91S67CS8Z210L",
+            'SLLNDR91C06F205',
+            'SXLNDQ67CS8Z210L',
+            'XSD91S67CS8Z210L',
         ];
 
         $this->omocodie = [
@@ -42,7 +50,7 @@ class CheckerTest extends \PHPUnit\Framework\TestCase
 
     public function testCorrettezzaFormaleCodiceFiscale(): void
     {
-        $checker = new \CodiceFiscale\Checker();
+        $checker = new Checker();
 
         foreach ($this->codiciFiscaliOk as $cf) {
             $this->assertTrue($checker->isFormallyCorrect($cf));
