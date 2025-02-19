@@ -26,43 +26,43 @@ class Checker
 
     /**
      * Sex
-     * @var string
+     * @var ?string
      */
     private $sex = null;
 
     /**
      * Country Birth
-     * @var integer
+     * @var ?string
      */
     private $countryBirth = null;
 
     /**
      * Day Birth
-     * @var integer
+     * @var ?string
      */
     private $dayBirth = null;
 
     /**
      * Month Birth
-     * @var integer
+     * @var ?string
      */
     private $monthBirth = null;
 
     /**
      * Year Birth
-     * @var integer
+     * @var ?string
      */
     private $yearBirth = null;
 
     /**
      * Error
-     * @var string
+     * @var ?string
      */
     private $error = null;
 
     /**
      * List replace omocodia
-     * @var array
+     * @var array<string, string>
      */
     private $listDecOmocodia = ['A' => '!', 'B' => '!', 'C' => '!', 'D' => '!', 'E' => '!', 'F' => '!', 'G' => '!', 'H' => '!', 'I' => '!', 'J' => '!', 'K' => '!', 'L' => '0', 'M' => '1', 'N' => '2', 'O' => '!', 'P' => '3', 'Q' => '4', 'R' => '5', 'S' => '6', 'T' => '7', 'U' => '8', 'V' => '9', 'W' => '!', 'X' => '!', 'Y' => '!', 'Z' => '!',];
 
@@ -74,31 +74,31 @@ class Checker
 
     /**
      * Weight even char
-     * @var array
+     * @var array<int|string, int>
      */
     private $listEvenChar = ['0' => 0, '1' => 1, '2' => 2, '3' => 3, '4' => 4, '5' => 5, '6' => 6, '7' => 7, '8' => 8, '9' => 9, 'A' => 0, 'B' => 1, 'C' => 2, 'D' => 3, 'E' => 4, 'F' => 5, 'G' => 6, 'H' => 7, 'I' => 8, 'J' => 9, 'K' => 10, 'L' => 11, 'M' => 12, 'N' => 13, 'O' => 14, 'P' => 15, 'Q' => 16, 'R' => 17, 'S' => 18, 'T' => 19, 'U' => 20, 'V' => 21, 'W' => 22, 'X' => 23, 'Y' => 24, 'Z' => 25];
 
     /**
      * Weight odd char
-     * @var array
+     * @var array<int|string, int>
      */
     private $listOddChar = ['0' => 1, '1' => 0, '2' => 5, '3' => 7, '4' => 9, '5' => 13, '6' => 15, '7' => 17, '8' => 19, '9' => 21, 'A' => 1, 'B' => 0, 'C' => 5, 'D' => 7, 'E' => 9, 'F' => 13, 'G' => 15, 'H' => 17, 'I' => 19, 'J' => 21, 'K' => 2, 'L' => 4, 'M' => 18, 'N' => 20, 'O' => 11, 'P' => 3, 'Q' => 6, 'R' => 8, 'S' => 12, 'T' => 14, 'U' => 16, 'V' => 10, 'W' => 22, 'X' => 25, 'Y' => 24, 'Z' => 23];
 
     /**
      * Control code (char 16)
-     * @var array
+     * @var array<int, string>
      */
     private $listCtrlCode = [0 => 'A', 1 => 'B', 2 => 'C', 3 => 'D', 4 => 'E', 5 => 'F', 6 => 'G', 7 => 'H', 8 => 'I', 9 => 'J', 10 => 'K', 11 => 'L', 12 => 'M', 13 => 'N', 14 => 'O', 15 => 'P', 16 => 'Q', 17 => 'R', 18 => 'S', 19 => 'T', 20 => 'U', 21 => 'V', 22 => 'W', 23 => 'X', 24 => 'Y', 25 => 'Z'];
 
     /**
      * Month code
-     * @var array
+     * @var array<string, string>
      */
     private $listDecMonth = ['A' => '01', 'B' => '02', 'C' => '03', 'D' => '04', 'E' => '05', 'H' => '06', 'L' => '07', 'M' => '08', 'P' => '09', 'R' => '10', 'S' => '11', 'T' => '12'];
 
     /**
      * Error list
-     * @var array{int: string}
+     * @var string[]
      */
     private $listError = [0 => 'Empty code', 1 => 'Len error', 2 => 'Code with wrong char', 3 => 'Code with wrong char in omocodia', 4 => 'Wrong code'];
 
@@ -115,7 +115,7 @@ class Checker
 
     /**
      * Getter Error
-     * @return string
+     * @return ?string
      */
     public function getError()
     {
@@ -125,7 +125,7 @@ class Checker
 
     /**
      * Getter Sex
-     * @return string
+     * @return ?string
      */
     public function getSex()
     {
@@ -135,7 +135,7 @@ class Checker
 
     /**
      * Getter CountryBirth
-     * @return integer
+     * @return ?string
      */
     public function getCountryBirth()
     {
@@ -145,7 +145,7 @@ class Checker
 
     /**
      * Getter YearBirth
-     * @return integer
+     * @return ?numeric-string
      */
     public function getYearBirth()
     {
@@ -155,7 +155,7 @@ class Checker
 
     /**
      * Getter MonthBirth
-     * @return integer
+     * @return ?string
      */
     public function getMonthBirth()
     {
@@ -165,7 +165,7 @@ class Checker
 
     /**
      * Getter DayBirth
-     * @return integer
+     * @return ?string
      */
     public function getDayBirth()
     {
@@ -237,12 +237,12 @@ class Checker
             $this->sex = ((int)(substr($codiceFiscaleAdattato, 9, 2) > 40) ? self::CHR_WOMEN : self::CHR_MALE);
             $this->countryBirth = substr($codiceFiscaleAdattato, 11, 4);
             $this->yearBirth = substr($codiceFiscaleAdattato, 6, 2);
-            $this->dayBirth = (int)substr($codiceFiscaleAdattato, 9, 2);
+            $this->dayBirth = substr($codiceFiscaleAdattato, 9, 2);
             $this->monthBirth = $this->listDecMonth[substr($codiceFiscaleAdattato, 8, 1)];
 
             // get day birth if sex is women
-            if ($this->sex == self::CHR_WOMEN) {
-                $this->dayBirth -= 40;
+            if ($this->sex === self::CHR_WOMEN) {
+                $this->dayBirth = (string)((int)$this->dayBirth - 40);
 
                 if (strlen($this->dayBirth) === 1) {
                     $this->dayBirth = '0' . $this->dayBirth;
