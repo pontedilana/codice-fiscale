@@ -73,9 +73,6 @@ class Calculator
         return $codiceFiscale;
     }
 
-    /**
-     * @param string $string
-     */
     private function calcolaNome(string $string): string
     {
         $i = 0;
@@ -107,9 +104,6 @@ class Calculator
         return substr($res, 0, 3);
     }
 
-    /**
-     * @param string $string
-     */
     private function calcolaCognome(string $string): string
     {
         $res = '';
@@ -137,8 +131,10 @@ class Calculator
     private function sanitizeString(string $string): string
     {
         $string = trim($string);
-        $string = strtoupper(iconv('UTF-8', 'ASCII//TRANSLIT', $string));
+        $string = transliterator_transliterate('Any-Latin; Latin-ASCII; [\u0080-\u7fff] remove', $string);
+        $string = mb_strtoupper($string);
         $string = str_replace(' ', '', $string);
-        return (string) $string;
+
+        return $string;
     }
 }
