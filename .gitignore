@@ -1,4 +1,6 @@
-vendor/
-.idea/
-.DS_Store
-.composer.lock
+/vendor/
+/composer.lock
+/.phpunit.cache/
+/.phpunit.result.cache
+/.php-cs-fixer.cache
+/phpstan.neon
