@@ -68,7 +68,7 @@ class Checker
 
     /**
      * Positions affected characters to alteration of coding in the case of omocodia
-     * @var array
+     * @var array<int>
      */
     private $listSostOmocodia = [6, 7, 9, 10, 12, 13, 14];
 

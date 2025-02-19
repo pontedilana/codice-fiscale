@@ -4,7 +4,10 @@ require_once __DIR__ . '/../vendor/autoload.php';
 
 class CalculatorTest extends \PHPUnit\Framework\TestCase
 {
-    protected $persons;
+    /**
+     * @var array<array-key, array<string, string|DateTime>>
+     */
+    protected array $persons;
 
     public function setUp(): void
     {
