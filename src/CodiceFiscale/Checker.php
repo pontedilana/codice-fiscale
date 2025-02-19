@@ -10,13 +10,13 @@ namespace CodiceFiscale;
 class Checker
 {
     // fiscal's code regex
-    const REGEX_CODICEFISCALE = '/^([A-Za-z]{6}[0-9lmnpqrstuvLMNPQRSTUV]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9lmnpqrstuvLMNPQRSTUV]{2}[A-Za-z]{1}[0-9lmnpqrstuvLMNPQRSTUV]{3}[A-Za-z]{1})|([0-9]{11})$/i';
+    public const REGEX_CODICEFISCALE = '/^([A-Za-z]{6}[0-9lmnpqrstuvLMNPQRSTUV]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9lmnpqrstuvLMNPQRSTUV]{2}[A-Za-z]{1}[0-9lmnpqrstuvLMNPQRSTUV]{3}[A-Za-z]{1})|([0-9]{11})$/i';
 
     // women char
-    const CHR_WOMEN = 'F';
+    public const CHR_WOMEN = 'F';
 
     // male char
-    const CHR_MALE = 'M';
+    public const CHR_MALE = 'M';
 
     /**
      * is Valid
@@ -234,7 +234,7 @@ class Checker
             $codiceFiscaleAdattato = implode('', $cFCharList);
 
             // get fiscal code data
-            $this->sex = ((int)(substr($codiceFiscaleAdattato, 9, 2) > 40) ? self::CHR_WOMEN : self::CHR_MALE);
+            $this->sex = ((int) (substr($codiceFiscaleAdattato, 9, 2) > 40) ? self::CHR_WOMEN : self::CHR_MALE);
             $this->countryBirth = substr($codiceFiscaleAdattato, 11, 4);
             $this->yearBirth = substr($codiceFiscaleAdattato, 6, 2);
             $this->dayBirth = substr($codiceFiscaleAdattato, 9, 2);
@@ -242,7 +242,7 @@ class Checker
 
             // get day birth if sex is women
             if ($this->sex === self::CHR_WOMEN) {
-                $this->dayBirth = (string)((int)$this->dayBirth - 40);
+                $this->dayBirth = (string) ((int) $this->dayBirth - 40);
 
                 if (strlen($this->dayBirth) === 1) {
                     $this->dayBirth = '0' . $this->dayBirth;

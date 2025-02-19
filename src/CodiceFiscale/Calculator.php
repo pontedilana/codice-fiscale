@@ -2,7 +2,6 @@
 
 namespace CodiceFiscale;
 
-
 class Calculator
 {
     private $mesi = ['A', 'B', 'C', 'D', 'E', 'H', 'L', 'M', 'P', 'R', 'S', 'T'];
@@ -90,7 +89,7 @@ class Calculator
     {
         $res = '';
         $i = 0;
-        while(strlen($res) < 3 && ($i + 1 <= strlen($string))) {
+        while (strlen($res) < 3 && ($i + 1 <= strlen($string))) {
             if (array_search($string[$i], $this->consonanti) !== false) {
                 $res .= $string[$i];
             }
@@ -99,7 +98,7 @@ class Calculator
 
         // Se non bastano le consonanti, prendo le vocali
         $i = 0;
-        while(strlen($res) < 3 && ($i + 1 <= strlen($string))) {
+        while (strlen($res) < 3 && ($i + 1 <= strlen($string))) {
             if (array_search($string[$i], $this->vocali) !== false) {
                 $res .= $string[$i];
             }

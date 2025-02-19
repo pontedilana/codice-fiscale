@@ -1,4 +1,5 @@
 <?php
+
 require_once __DIR__ . '/../vendor/autoload.php';
 
 class CalculatorTest extends \PHPUnit\Framework\TestCase
@@ -14,7 +15,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
                 "sesso" => "m",
                 "dataNascita" => new \DateTime("1991-01-05"),
                 "codiceComune" => "F205",
-                'expected' => 'SLLNDR91A05F205T'
+                'expected' => 'SLLNDR91A05F205T',
             ],
             [
                 "nome" => "chiara",
@@ -22,7 +23,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
                 "sesso" => "f",
                 "dataNascita" => new \DateTime("1992-03-06"),
                 "codiceComune" => "F205",
-                'expected' => 'NNLCHR92C46F205N'
+                'expected' => 'NNLCHR92C46F205N',
             ],
             [
                 "nome" => "hu",
@@ -30,7 +31,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
                 "sesso" => "m",
                 "dataNascita" => new \DateTime("1956-09-30"),
                 "codiceComune" => "Z210",
-                'expected' => 'HUXHUX56P30Z210K'
+                'expected' => 'HUXHUX56P30Z210K',
             ],
             [
                 "nome" => "hu",
@@ -38,7 +39,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
                 "sesso" => "f",
                 "dataNascita" => new \DateTime("1956-09-30"),
                 "codiceComune" => "Z210",
-                'expected' => 'HUXHUX56P70Z210O'
+                'expected' => 'HUXHUX56P70Z210O',
             ],
             [
                 "nome" => "luca marco giovanni",
@@ -46,7 +47,7 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
                 "sesso" => "m",
                 "dataNascita" => new \DateTime("1968-05-26"),
                 "codiceComune" => "C926",
-                'expected' => 'DBTLMR68E26C926B'
+                'expected' => 'DBTLMR68E26C926B',
             ],
             [
                 "nome" => "l'arnalda",
@@ -54,8 +55,8 @@ class CalculatorTest extends \PHPUnit\Framework\TestCase
                 "sesso" => "F",
                 "dataNascita" => new \DateTime("1983-12-31"),
                 "codiceComune" => "D856",
-                'expected' => 'DNNLNL83T71D856L'
-            ]
+                'expected' => 'DNNLNL83T71D856L',
+            ],
         ];
     }
 
