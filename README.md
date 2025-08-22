@@ -1,15 +1,15 @@
 CodiceFiscale
 ==============
 
-A library to calculate and check the validity of the italian fiscal code (codice fiscale).
+A library to calculate and check the validity of the Italian fiscal code (codice fiscale).
 Based on the original work of andreausu, with the contribution of fdisotto.
 
-[![Latest Stable Version](https://poser.pugx.org/usu/codice-fiscale/v/stable.svg)](https://packagist.org/packages/fattureincloud/codice-fiscale) [![Total Downloads](https://poser.pugx.org/usu/codice-fiscale/downloads.svg)](https://packagist.org/packages/fattureincloud/codice-fiscale) [![License](https://poser.pugx.org/usu/codice-fiscale/license.svg)](https://packagist.org/packages/fattureincloud/codice-fiscale)
+[![Latest Stable Version](https://poser.pugx.org/pontedilana/codice-fiscale/v/stable.svg)](https://packagist.org/packages/pontedilana/codice-fiscale) [![Total Downloads](https://poser.pugx.org/pontedilana/codice-fiscale/downloads.svg)](https://packagist.org/packages/pontedilana/codice-fiscale) [![License](https://poser.pugx.org/pontedilana/codice-fiscale/license.svg)](https://packagist.org/packages/pontedilana/codice-fiscale)
 
 Requirements
 ------------
 
-- php >= 5.4
+- php >= 8.1
 
 Installation
 ------------
@@ -17,7 +17,7 @@ Installation
 Add the library with the following command
 
 ``` bash
-composer require fattureincloud/codice-fiscale
+composer require pontedilana/codice-fiscale
 ```
 
 How to use
