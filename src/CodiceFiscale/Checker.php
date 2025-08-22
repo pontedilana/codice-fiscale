@@ -227,7 +227,7 @@ class Checker
             // replace "omocodie"
             for ($i = 0; $i < count($this->listSostOmocodia); $i++) {
                 if (!is_numeric($cFCharList[$this->listSostOmocodia[$i]])) {
-                    $CFCharList[$this->listSostOmocodia[$i]] = $this->listDecOmocodia[$cFCharList[$this->listSostOmocodia[$i]]];
+                    $cFCharList[$this->listSostOmocodia[$i]] = $this->listDecOmocodia[$cFCharList[$this->listSostOmocodia[$i]]];
                 }
             }
 
