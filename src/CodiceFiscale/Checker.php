@@ -10,7 +10,7 @@ namespace CodiceFiscale;
 class Checker
 {
     // fiscal's code regex
-    public const REGEX_CODICEFISCALE = '/^([A-Za-z]{6}[0-9lmnpqrstuvLMNPQRSTUV]{2}[abcdehlmprstABCDEHLMPRST]{1}[0-9lmnpqrstuvLMNPQRSTUV]{2}[A-Za-z]{1}[0-9lmnpqrstuvLMNPQRSTUV]{3}[A-Za-z]{1})|([0-9]{11})$/i';
+    public const REGEX_CODICEFISCALE = '/^[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST]{1}[0-9LMNPQRSTUV]{2}[A-Z]{1}[0-9LMNPQRSTUV]{3}[A-Z]{1}$/';
 
     // women char
     public const CHR_WOMEN = 'F';
@@ -100,7 +100,7 @@ class Checker
      *
      * @var string[]
      */
-    private array $listError = [0 => 'Empty code', 1 => 'Len error', 2 => 'Code with wrong char', 3 => 'Code with wrong char in omocodia', 4 => 'Wrong code'];
+    private array $listError = [0 => 'Empty code', 1 => 'Length error', 2 => 'Code with wrong char', 3 => 'Code with wrong char in omocodia', 4 => 'Wrong code'];
 
     /**
      * Getter isValid.
@@ -163,55 +163,63 @@ class Checker
         $this->resetProperties();
 
         try {
-            // check empty
+            // 1. Check empty
             if (trim($codiceFiscale) === '') {
                 $this->raiseException(0);
             }
 
-            // Vcheck len
-            if (16 !== strlen($codiceFiscale)) {
+            // 2. Check length
+            if (strlen($codiceFiscale) !== 16) {
                 $this->raiseException(1);
             }
 
-            // Check regex
-            if (false === preg_match(self::REGEX_CODICEFISCALE, $codiceFiscale)) {
+            $codiceFiscale = strtoupper($codiceFiscale);
+
+            // 3. Check general pattern
+            if (1 !== preg_match(self::REGEX_CODICEFISCALE, $codiceFiscale)) {
                 $this->raiseException(2);
             }
 
-            $codiceFiscale = strtoupper($codiceFiscale);
-            $cFCharList = str_split($codiceFiscale);
+            $CFCharList = str_split($codiceFiscale);
 
-            // check omocodia
-            for ($i = 0, $iMax = count($this->listSostOmocodia); $i < $iMax; ++$i) {
-                if (!is_numeric($cFCharList[$this->listSostOmocodia[$i]])) {
-                    if ('!' === $this->listDecOmocodia[$cFCharList[$this->listSostOmocodia[$i]]]) {
-                        $this->raiseException(3);
-                    }
+            // 4. Explicitly check omocodia characters
+            foreach ($this->listSostOmocodia as $pos) {
+                $char = $CFCharList[$pos];
+
+                // Se è un numero, va bene
+                if (is_numeric($char)) {
+                    continue;
+                }
+
+                // Se è una lettera, verifica che sia mappata correttamente per l'omocodia
+                if (!isset($this->listDecOmocodia[$char]) || $this->listDecOmocodia[$char] === '!') {
+                    $this->raiseException(3); // ERRORE DI OMOCODIA
                 }
             }
 
+            // Se ha superato il controllo omocodia, prosegue col checksum
             $pari = 0;
-            $dispari = $this->listOddChar[$cFCharList[14]];
+            $dispari = $this->listOddChar[$CFCharList[14]];
 
-            // loop first 14 char, step 2
+            // 5. Calculate checksum
             for ($i = 0; $i < 13; $i += 2) {
-                $dispari += $this->listOddChar[$cFCharList[$i]];
-                $pari += $this->listEvenChar[$cFCharList[$i + 1]];
+                $dispari += $this->listOddChar[$CFCharList[$i]];
+                $pari += $this->listEvenChar[$CFCharList[$i + 1]];
             }
 
-            // verify first 15 char with checksum char (char 16)
-            if (!($this->listCtrlCode[($pari + $dispari) % 26] === $cFCharList[15])) {
+            // 6. Verify checksum
+            if (!($this->listCtrlCode[($pari + $dispari) % 26] === $CFCharList[15])) {
                 $this->raiseException(4);
             }
 
             // replace "omocodie"
-            for ($i = 0, $iMax = count($this->listSostOmocodia); $i < $iMax; ++$i) {
-                if (!is_numeric($cFCharList[$this->listSostOmocodia[$i]])) {
-                    $cFCharList[$this->listSostOmocodia[$i]] = $this->listDecOmocodia[$cFCharList[$this->listSostOmocodia[$i]]];
+            foreach ($this->listSostOmocodia as $item) {
+                if (!is_numeric($CFCharList[$item])) {
+                    $CFCharList[$item] = $this->listDecOmocodia[$CFCharList[$item]];
                 }
             }
 
-            $codiceFiscaleAdattato = implode('', $cFCharList);
+            $codiceFiscaleAdattato = implode('', $CFCharList);
 
             // get fiscal code data
             $this->sex = (((int) substr($codiceFiscaleAdattato, 9, 2) > 40) ? self::CHR_WOMEN : self::CHR_MALE);
@@ -263,6 +271,6 @@ class Checker
     {
         $errMessage = $this->listError[$errorNum] ?? 'Unknown Exception';
 
-        throw new \RuntimeException($errMessage, $errorNum);
+        throw new \Exception($errMessage, $errorNum);
     }
 }

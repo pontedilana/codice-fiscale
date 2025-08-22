@@ -1,19 +1,19 @@
 <?php
 
 use CodiceFiscale\Calculator;
+use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-/**
- * @internal
- *
- * @coversNothing
- */
+#[CoversClass(Calculator::class)]
 class CalculatorTest extends TestCase
 {
     /**
-     * @var array<array-key, array{
+     * DataProvider per testCalcoloCodiceFiscale.
+     *
+     * @return iterable<string, array{
      *     nome: string,
      *     cognome: string,
      *     sesso: 'm'|'f'|'M'|'F',
@@ -22,12 +22,10 @@ class CalculatorTest extends TestCase
      *     expected: string
      * }>
      */
-    protected array $persons;
-
-    public function setUp(): void
+    public static function codiceFiscaleProvider(): iterable
     {
-        $this->persons = [
-            [
+        return [
+            'andrea usuelli' => [
                 'nome' => 'andrea',
                 'cognome' => 'usuelli',
                 'sesso' => 'm',
@@ -35,7 +33,7 @@ class CalculatorTest extends TestCase
                 'codiceComune' => 'F205',
                 'expected' => 'SLLNDR91A05F205T',
             ],
-            [
+            'chiara nònlòsò' => [
                 'nome' => 'chiara',
                 'cognome' => 'nònlòsò',
                 'sesso' => 'f',
@@ -43,7 +41,7 @@ class CalculatorTest extends TestCase
                 'codiceComune' => 'F205',
                 'expected' => 'NNLCHR92C46F205N',
             ],
-            [
+            'hu hu (M)' => [
                 'nome' => 'hu',
                 'cognome' => 'hu',
                 'sesso' => 'm',
@@ -51,7 +49,7 @@ class CalculatorTest extends TestCase
                 'codiceComune' => 'Z210',
                 'expected' => 'HUXHUX56P30Z210K',
             ],
-            [
+            'hu hu (F)' => [
                 'nome' => 'hu',
                 'cognome' => 'hu',
                 'sesso' => 'f',
@@ -59,7 +57,7 @@ class CalculatorTest extends TestCase
                 'codiceComune' => 'Z210',
                 'expected' => 'HUXHUX56P70Z210O',
             ],
-            [
+            'luca marco giovanni d\'abate spigna maria' => [
                 'nome' => 'luca marco giovanni',
                 'cognome' => "d'abate spigna maria",
                 'sesso' => 'm',
@@ -67,7 +65,7 @@ class CalculatorTest extends TestCase
                 'codiceComune' => 'C926',
                 'expected' => 'DBTLMR68E26C926B',
             ],
-            [
+            'l\'arnalda d\'annunzio' => [
                 'nome' => "l'arnalda",
                 'cognome' => "d'annunzio",
                 'sesso' => 'F',
@@ -78,12 +76,56 @@ class CalculatorTest extends TestCase
         ];
     }
 
-    public function testCalcoloCodiceFiscale(): void
+    #[DataProvider('codiceFiscaleProvider')]
+    public function testCalcoloCodiceFiscale(
+        string $nome,
+        string $cognome,
+        string $sesso,
+        DateTime $dataNascita,
+        string $codiceComune,
+        string $expected,
+    ): void {
+        $cf = new Calculator();
+        self::assertSame($expected, $cf->calcola($nome, $cognome, $sesso, $dataNascita, $codiceComune));
+    }
+
+    /**
+     * DataProvider per testSanitizeString.
+     *
+     * @return array<string, array{string, string}>
+     */
+    public static function sanitizeStringProvider(): iterable
+    {
+        return [
+            'basic lowercase' => ['andrea', 'ANDREA'],
+            'basic uppercase' => ['USUELLI', 'USUELLI'],
+            'trim spaces' => ['  chiara  ', 'CHIARA'],
+            'remove accents' => ['nònlòsò', 'NONLOSO'],
+            'keep simple chars' => ['HU', 'HU'],
+            'strip special characters' => ['luca@marco#giovanni', 'LUCAMARCOGIOVANNI'],
+            'handle apostrophes' => ["d'abate", "DABATE"],
+            'mixed spaces' => ['L U M É', 'LUME'],
+            'international chars' => ['résumé', 'RESUME'],
+            'Japanese characters' => ['こんにちは', 'KONNICHIHA'],
+            'Chinese characters' => ['你好', 'NIHAO'],
+            'Cyrillic characters' => ['Здравей', 'ZDRAVEJ'],
+            'symbols and numbers' => ['123 abc!', '123ABC'],
+        ];
+    }
+
+    #[DataProvider('sanitizeStringProvider')]
+    public function testSanitizeString(string $input, string $expected): void
     {
         $cf = new Calculator();
 
-        foreach ($this->persons as $person) {
-            self::assertSame($person['expected'], $cf->calcola($person['nome'], $person['cognome'], $person['sesso'], $person['dataNascita'], $person['codiceComune']));
-        }
+        // Accedi al metodo privato sanitizeString tramite Reflection
+        $reflection = new \ReflectionClass($cf);
+        $method = $reflection->getMethod('sanitizeString');
+        $method->setAccessible(true);
+
+        // Esegui il metodo su Calculator
+        $result = $method->invoke($cf, $input);
+
+        self::assertSame($expected, $result, "Errore su sanitizeString per input: '$input'");
     }
 }

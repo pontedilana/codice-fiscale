@@ -67,9 +67,8 @@ class Calculator
         for ($i = 0; $i < 15; ++$i) {
             $codiceControllo += $this->matriceCodiceControllo[array_search($codiceFiscale[$i], $alfanumerico, true) . (($i + 1) % 2)];
         }
-        $codiceFiscale .= $this->alfabeto[$codiceControllo % 26];
 
-        return $codiceFiscale;
+        return $codiceFiscale . $this->alfabeto[$codiceControllo % 26];
     }
 
     private function calcolaNome(string $string): string
@@ -131,12 +130,18 @@ class Calculator
     private function sanitizeString(string $string): string
     {
         $string = trim($string);
+
+        // Converte caratteri speciali in ASCII, mantenendo solo lettere latine
         $string = transliterator_transliterate('Any-Latin; Latin-ASCII; [\u0080-\u7fff] remove', $string);
+
         if (false === $string) {
             throw new \RuntimeException('Error during string sanitization');
         }
-        $string = mb_strtoupper($string);
 
-        return str_replace(' ', '', $string);
+        // Rimuove qualsiasi carattere non appartenente all'alfabeto latino e ai numeri
+        $string = preg_replace('/[^A-Za-z0-9]/u', '', $string);
+
+        // Converte in maiuscolo
+        return mb_strtoupper((string) $string);
     }
 }
