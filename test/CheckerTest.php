@@ -121,7 +121,45 @@ class CheckerTest extends TestCase
                     'dayBirth' => '05',
                 ],
             ],
+            // 29 febbraio in anno bisestile, sesso F
+            [
+                'RSSMRA80B69F205X',
+                [
+                    'sex' => 'F',
+                    'countryBirth' => 'F205',
+                    'yearBirth' => '80',
+                    'monthBirth' => '02',
+                    'dayBirth' => '29',
+                ],
+            ],
         ];
+    }
+
+    /**
+     * Codici con checksum corretto ma data di nascita impossibile.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function wrongBirthDateProvider(): iterable
+    {
+        return [
+            'day 00' => ['RSSMRA79S00F205Q'],
+            'day 40' => ['RSSMRA79S40F205U'],
+            'day 99 (59 F)' => ['RSSMRA79S99F205T'],
+            '31 February' => ['RSSMRA79B31F205G'],
+        ];
+    }
+
+    /**
+     * Test per l'errore 5: Wrong birth date
+     */
+    #[DataProvider('wrongBirthDateProvider')]
+    public function testWrongBirthDateError(string $codiceFiscale): void
+    {
+        self::assertFalse($this->checker->isFormallyCorrect($codiceFiscale));
+        self::assertSame('Wrong birth date', $this->checker->getError());
+        self::assertNull($this->checker->getDayBirth());
+        self::assertNull($this->checker->getSex());
     }
 
 

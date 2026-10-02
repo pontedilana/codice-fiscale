@@ -100,7 +100,7 @@ class Checker
      *
      * @var string[]
      */
-    private array $listError = [0 => 'Empty code', 1 => 'Length error', 2 => 'Code with wrong char', 3 => 'Code with wrong char in omocodia', 4 => 'Wrong code'];
+    private array $listError = [0 => 'Empty code', 1 => 'Length error', 2 => 'Code with wrong char', 3 => 'Code with wrong char in omocodia', 4 => 'Wrong code', 5 => 'Wrong birth date'];
 
     /**
      * Getter isValid.
@@ -220,6 +220,18 @@ class Checker
             }
 
             $codiceFiscaleAdattato = implode('', $CFCharList);
+
+            // 7. Check birth date: day 1-31 for men, 41-71 for women.
+            // The century is unknown: checkdate() on 20yy accepts 29 February for every yy divisible by 4
+            $day = (int) substr($codiceFiscaleAdattato, 9, 2);
+            if ($day > 40) {
+                $day -= 40;
+            }
+            $month = (int) $this->listDecMonth[substr($codiceFiscaleAdattato, 8, 1)];
+            $year = 2000 + (int) substr($codiceFiscaleAdattato, 6, 2);
+            if (!checkdate($month, $day, $year)) {
+                $this->raiseException(5);
+            }
 
             // get fiscal code data
             $this->sex = (((int) substr($codiceFiscaleAdattato, 9, 2) > 40) ? self::CHR_WOMEN : self::CHR_MALE);
