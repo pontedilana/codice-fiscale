@@ -18,7 +18,7 @@ composer install                                   # dev dependencies
 ./vendor/bin/rector process --dry-run              # PHP 8.1 set, PHPUnit 10 set, full type coverage
 ```
 
-Verification gate before committing: phpunit, phpstan, php-cs-fixer (and rector dry-run when touching types). CI (`.github/workflows/test.yml`) only runs `composer validate --strict` and phpunit on pushes/PRs to `main`.
+Verification gate before committing: phpunit, phpstan, php-cs-fixer, rector dry-run. CI (`.github/workflows/test.yml`) runs phpunit on PHP 8.1 to 8.5 (plus lowest dependencies on 8.1) and the static checks on PHP 8.1, on pushes/PRs to `main` and `develop`.
 
 A gitignored local `phpstan.neon` (includes `phpstan.dist.neon`) takes precedence when present. `composer.lock` is gitignored too.
 
