@@ -214,17 +214,13 @@ class CheckerTest extends TestCase
     }
 
     /**
-     * Test per l'errore 3: Code with wrong char in omocodia
+     * Una lettera non ammessa in posizione di omocodia viene respinta dalla regex (errore 2)
      */
-    //    public function testWrongCharOmocodiaError(): void
-    //    {
-    //        // Usare un carattere non permesso in una posizione di omocodia
-    //        $codiceFiscale = 'BNZVCN32S10E57PV'; // Ultimo carattere non valido per omocodia
-    //        $isValid = $this->checker->isFormallyCorrect($codiceFiscale);
-    //
-    //        self::assertFalse($isValid, "Codice fiscale con omocodia errata dovrebbe essere invalido.");
-    //        self::assertSame('Code with wrong char in omocodia', $this->checker->getError());
-    //    }
+    public function testWrongCharInOmocodiaPositionError(): void
+    {
+        self::assertFalse($this->checker->isFormallyCorrect('BNZVCN32S10E57AV'));
+        self::assertSame('Code with wrong char', $this->checker->getError());
+    }
 
     /**
      * Test per l'errore 4: Wrong code

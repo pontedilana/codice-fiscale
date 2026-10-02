@@ -175,39 +175,24 @@ class Checker
 
             $codiceFiscale = strtoupper($codiceFiscale);
 
-            // 3. Check general pattern
+            // 3. Check general pattern: it also restricts the omocodia positions to digits and LMNPQRSTUV,
+            // so error 3 (wrong char in omocodia) can no longer occur
             if (1 !== preg_match(self::REGEX_CODICEFISCALE, $codiceFiscale)) {
                 $this->raiseException(2);
             }
 
             $CFCharList = str_split($codiceFiscale);
 
-            // 4. Explicitly check omocodia characters
-            foreach ($this->listSostOmocodia as $pos) {
-                $char = $CFCharList[$pos];
-
-                // Se è un numero, va bene
-                if (is_numeric($char)) {
-                    continue;
-                }
-
-                // Se è una lettera, verifica che sia mappata correttamente per l'omocodia
-                if (!isset($this->listDecOmocodia[$char]) || $this->listDecOmocodia[$char] === '!') {
-                    $this->raiseException(3); // ERRORE DI OMOCODIA
-                }
-            }
-
-            // Se ha superato il controllo omocodia, prosegue col checksum
             $pari = 0;
             $dispari = $this->listOddChar[$CFCharList[14]];
 
-            // 5. Calculate checksum
+            // 4. Calculate checksum
             for ($i = 0; $i < 13; $i += 2) {
                 $dispari += $this->listOddChar[$CFCharList[$i]];
                 $pari += $this->listEvenChar[$CFCharList[$i + 1]];
             }
 
-            // 6. Verify checksum
+            // 5. Verify checksum
             if (!($this->listCtrlCode[($pari + $dispari) % 26] === $CFCharList[15])) {
                 $this->raiseException(4);
             }
@@ -221,7 +206,7 @@ class Checker
 
             $codiceFiscaleAdattato = implode('', $CFCharList);
 
-            // 7. Check birth date: day 1-31 for men, 41-71 for women.
+            // 6. Check birth date: day 1-31 for men, 41-71 for women.
             // The century is unknown: checkdate() on 20yy accepts 29 February for every yy divisible by 4
             $day = (int) substr($codiceFiscaleAdattato, 9, 2);
             if ($day > 40) {
