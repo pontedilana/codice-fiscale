@@ -87,6 +87,27 @@ class CalculatorTest extends TestCase
     /**
      * @return array<string, array{string}>
      */
+    public static function invalidSessoProvider(): iterable
+    {
+        return [
+            'empty' => [''],
+            'unknown letter' => ['X'],
+            'full word' => ['femmina'],
+        ];
+    }
+
+    #[DataProvider('invalidSessoProvider')]
+    public function testInvalidSesso(string $sesso): void
+    {
+        $cf = new Calculator();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $cf->calcola('mario', 'rossi', $sesso, new DateTime('1979-11-18'), 'F205');
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
     public static function invalidCodiceComuneProvider(): iterable
     {
         return [

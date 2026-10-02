@@ -44,6 +44,9 @@ class Calculator
         $nome = $this->sanitizeString($nome);
         $cognome = $this->sanitizeString($cognome);
         $sesso = $this->sanitizeString($sesso);
+        if ('M' !== $sesso && 'F' !== $sesso) {
+            throw new \InvalidArgumentException(sprintf('Invalid sesso "%s", expected M or F', $sesso));
+        }
         $codiceComune = strtoupper(trim($codiceComune));
 
         // codice catastale: una lettera seguita da tre cifre (es. F205, Z210)
