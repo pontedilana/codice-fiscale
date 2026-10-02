@@ -173,7 +173,6 @@ class CalculatorTest extends TestCase
         // Accedi al metodo privato sanitizeString tramite Reflection
         $reflection = new \ReflectionClass($cf);
         $method = $reflection->getMethod('sanitizeString');
-        $method->setAccessible(true);
 
         // Esegui il metodo su Calculator
         $result = $method->invoke($cf, $input);
