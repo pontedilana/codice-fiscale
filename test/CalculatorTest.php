@@ -73,7 +73,38 @@ class CalculatorTest extends TestCase
                 'codiceComune' => 'D856',
                 'expected' => 'DNNLNL83T71D856L',
             ],
+            'mario rossi (codice comune minuscolo)' => [
+                'nome' => 'mario',
+                'cognome' => 'rossi',
+                'sesso' => 'M',
+                'dataNascita' => new DateTime('1979-11-18'),
+                'codiceComune' => ' f205 ',
+                'expected' => 'RSSMRA79S18F205J',
+            ],
         ];
+    }
+
+    /**
+     * @return array<string, array{string}>
+     */
+    public static function invalidCodiceComuneProvider(): iterable
+    {
+        return [
+            'empty' => [''],
+            'too short' => ['F20'],
+            'too long' => ['F2055'],
+            'digit first' => ['1205'],
+            'letter in number' => ['F2O5'],
+        ];
+    }
+
+    #[DataProvider('invalidCodiceComuneProvider')]
+    public function testInvalidCodiceComune(string $codiceComune): void
+    {
+        $cf = new Calculator();
+
+        $this->expectException(\InvalidArgumentException::class);
+        $cf->calcola('mario', 'rossi', 'M', new DateTime('1979-11-18'), $codiceComune);
     }
 
     #[DataProvider('codiceFiscaleProvider')]
