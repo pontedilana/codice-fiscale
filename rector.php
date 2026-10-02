@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
-use Rector\PHPUnit\Set\PHPUnitSetList;
 
 return RectorConfig::configure()
     ->withPaths([
@@ -11,9 +10,7 @@ return RectorConfig::configure()
         __DIR__ . '/test',
     ])
     ->withPhpSets(php81: true)
-    ->withSets([
-        PHPUnitSetList::PHPUNIT_100,
-    ])
-    ->withTypeCoverageLevel(100)
+    ->withComposerBased(phpunit: true)
+    ->withPreparedSets(typeDeclarations: true)
     ->withDeadCodeLevel(0)
     ->withCodeQualityLevel(0);

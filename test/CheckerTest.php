@@ -121,7 +121,45 @@ class CheckerTest extends TestCase
                     'dayBirth' => '05',
                 ],
             ],
+            // 29 febbraio in anno bisestile, sesso F
+            [
+                'RSSMRA80B69F205X',
+                [
+                    'sex' => 'F',
+                    'countryBirth' => 'F205',
+                    'yearBirth' => '80',
+                    'monthBirth' => '02',
+                    'dayBirth' => '29',
+                ],
+            ],
         ];
+    }
+
+    /**
+     * Codici con checksum corretto ma data di nascita impossibile.
+     *
+     * @return array<string, array{string}>
+     */
+    public static function wrongBirthDateProvider(): iterable
+    {
+        return [
+            'day 00' => ['RSSMRA79S00F205Q'],
+            'day 40' => ['RSSMRA79S40F205U'],
+            'day 99 (59 F)' => ['RSSMRA79S99F205T'],
+            '31 February' => ['RSSMRA79B31F205G'],
+        ];
+    }
+
+    /**
+     * Test per l'errore 5: Wrong birth date
+     */
+    #[DataProvider('wrongBirthDateProvider')]
+    public function testWrongBirthDateError(string $codiceFiscale): void
+    {
+        self::assertFalse($this->checker->isFormallyCorrect($codiceFiscale));
+        self::assertSame('Wrong birth date', $this->checker->getError());
+        self::assertNull($this->checker->getDayBirth());
+        self::assertNull($this->checker->getSex());
     }
 
 
@@ -176,17 +214,13 @@ class CheckerTest extends TestCase
     }
 
     /**
-     * Test per l'errore 3: Code with wrong char in omocodia
+     * Una lettera non ammessa in posizione di omocodia viene respinta dalla regex (errore 2)
      */
-    //    public function testWrongCharOmocodiaError(): void
-    //    {
-    //        // Usare un carattere non permesso in una posizione di omocodia
-    //        $codiceFiscale = 'BNZVCN32S10E57PV'; // Ultimo carattere non valido per omocodia
-    //        $isValid = $this->checker->isFormallyCorrect($codiceFiscale);
-    //
-    //        self::assertFalse($isValid, "Codice fiscale con omocodia errata dovrebbe essere invalido.");
-    //        self::assertSame('Code with wrong char in omocodia', $this->checker->getError());
-    //    }
+    public function testWrongCharInOmocodiaPositionError(): void
+    {
+        self::assertFalse($this->checker->isFormallyCorrect('BNZVCN32S10E57AV'));
+        self::assertSame('Code with wrong char', $this->checker->getError());
+    }
 
     /**
      * Test per l'errore 4: Wrong code
